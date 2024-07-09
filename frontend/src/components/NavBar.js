@@ -8,14 +8,18 @@ import ChatIcon from '@mui/icons-material/Chat';
 import ArticleIcon from '@mui/icons-material/Article';
 import PersonIcon from '@mui/icons-material/Person';
 import SettingsIcon from '@mui/icons-material/Settings';
+import { useLocation } from "react-router";
 
 export default function NavBar() {
+
+  const location = useLocation();
+  const currentPath =  location.pathname;
   return (
     <div className="navbar-container">
       <h3 className="logo"> e - Hospital </h3>
       <div className="navbar">
-        <NavBarLink label="Dashboard" to="/" icon = {HomeIcon} />
-        <NavBarLink label="Requests" to="/requests" icon = {TableRowsIcon} />
+        <NavBarLink label="Dashboard" to="/" icon = {HomeIcon} isActive={currentPath ==="/"}/>
+        <NavBarLink label="Requests" to="/requests" icon = {TableRowsIcon}  isActive={currentPath === "/requests"} />
         <NavBarLink label="Feedbacks" to="/" icon = {ChatIcon}/>
         <NavBarLink label="Reports" to="/" icon = {ArticleIcon}/>
         <NavBarLink label="Patient" to="/" icon = {PersonIcon}/>
