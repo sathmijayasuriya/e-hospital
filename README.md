@@ -13,8 +13,6 @@ PATCH /requests/:id: Update an existing request.
 DELETE /requests/:id: Delete a request.
 
 
-Assigned To (String)
-
 Detailed Tasks
 
 Backend Development:
@@ -22,8 +20,6 @@ Define models and schemas for request data.
 Implement API endpoints for CRUD operations.
 Handle request validation and error handling.
 Test API endpoints using Postman or similar tools.
-
-○
 
 Integration:
 Connect frontend form and table to backend API.
