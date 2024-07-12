@@ -14,6 +14,7 @@ export default function NavBar() {
 
   const location = useLocation();
   const currentPath =  location.pathname;
+
   return (
     <div className="navbar-container">
       <h3 className="logo"> e - Hospital </h3>

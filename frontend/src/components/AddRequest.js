@@ -5,10 +5,16 @@ import AddIcon from '@mui/icons-material/Add';
 
 export default function AddRequest() {
   return (
-        <div style={{display:"flex",justifyItems:"flex-start",padding:"20px",margin:"15px"}}>
-          <Typography variant="h4"
-                      sx={{fontFamily:"inter"}}
-                      >
+        <div style={{display:"flex",
+                      justifyItems:"flex-start",
+                      padding:"20px",
+                      margin:"20px"}}>
+          <Typography variant="h4" 
+                      sx={{ 
+                        fontFamily: "Inter, sans-serif",
+                        fontWeight: 500,
+                      }}
+                      >  
                         Requests
                       </Typography>
           <NabBarLink label = "New Reuqest" 

@@ -3,6 +3,10 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import "../styles/NavBar.css";
 
+// Function to convert string to Sentence Case
+const toSentenceCase = (str) => {
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+};
 export default function NabBarLink(props) {
   const { label, to , icon :IconComponent,color,bgcolor,hoverBgcolor,hovercolor,isActive , iconHovercolor} = props;
   return (
@@ -17,6 +21,8 @@ export default function NabBarLink(props) {
               //         color :  hovercolor || "#830823"
               //        },
               sx={{
+                      fontFamily: "Inter, sans-serif",
+                      fontWeight: 300,
                       color: isActive ? '#830823' : color || "white",
                       backgroundColor: isActive ? 'white' : bgcolor || "#830823",
                       '&:hover': {
@@ -32,13 +38,13 @@ export default function NabBarLink(props) {
           <IconComponent className = 'icon-hover'
             sx={{
                 // color: "white",
-                color: isActive ? '#830823' : color || "white", // Default color based on isActive and color prop
+                color: isActive ? '#830823' : color || "white", 
                 fontSize: "15px", 
                 paddingRight: "10px" ,
               }}
           />
         )}
-        {label}
+      {toSentenceCase(label)}
       </Button>
     </div>
   );
