@@ -20,10 +20,10 @@ export default function NavBar() {
       <div className="navbar">
         <NavBarLink label="Dashboard" to="/" icon = {HomeIcon} isActive={currentPath ==="/"}/>
         <NavBarLink label="Requests" to="/requests" icon = {TableRowsIcon}  isActive={currentPath === "/requests"} />
-        <NavBarLink label="Feedbacks" to="/" icon = {ChatIcon}/>
-        <NavBarLink label="Reports" to="/" icon = {ArticleIcon}/>
-        <NavBarLink label="Patient" to="/" icon = {PersonIcon}/>
-        <NavBarLink label="Settings" to="/" icon = {SettingsIcon}/>
+        <NavBarLink label="Feedbacks" to="/feedbacks" icon = {ChatIcon}  isActive={currentPath === "/feedbacks"}/>
+        <NavBarLink label="Reports" to="/reports" icon = {ArticleIcon}  isActive={currentPath === "/reports"}/>
+        <NavBarLink label="Patient" to="/patient" icon = {PersonIcon}  isActive={currentPath === "/patient"}/>
+        <NavBarLink label="Settings" to="/settings" icon = {SettingsIcon}  isActive={currentPath === "/settings"}/>
       </div>
       <NavIcons />
     </div>
