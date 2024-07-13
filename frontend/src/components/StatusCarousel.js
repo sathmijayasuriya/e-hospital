@@ -1,7 +1,5 @@
 import React from 'react';
-import Carousel from 'react-material-ui-carousel';
 import { Paper, Typography, Box } from '@mui/material';
-import styled  from '@emotion/styled';
 
 const carouselData = [
   { number: '10', status: 'New Requests' },
@@ -10,48 +8,57 @@ const carouselData = [
   { number: '00', status: 'On Hold Requests' },
 ];
 
-const StyledPaper = styled(Paper)`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  width: 150px;
-  height: 150px;
-  background-color: #f5f5f5;
-  padding: 20px;
-`;
-
-const StyledNumber = styled(Typography)`
-  color: #333;
-  font-weight: bold;
-  font-size: 48px;
-  margin-bottom: 10px;
-`;
-
-const StyledStatus = styled(Typography)`
-  color: #888;
-  font-weight: normal;
-  font-size: 16px;
-  text-align: center;
-`;
-
 const CarouselItem = ({ number, status }) => {
   return (
-    <StyledPaper>
-      <StyledNumber variant="h4">{number}</StyledNumber>
-      <StyledStatus variant="subtitle2">{status}</StyledStatus>
-    </StyledPaper>
+    <Paper
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: '50%',
+        width: 150,
+        height: 150,
+        backgroundColor: '#212121',
+        padding: 2,
+        margin: '0 auto',
+      }}
+    >
+      <Typography
+        variant="h4"
+        sx={{
+          color: 'white',
+          fontWeight: 'bold',
+          fontSize: 48,
+          marginBottom: 1,
+        }}
+      >
+        {number}
+      </Typography>
+      <Typography
+        variant="subtitle2"
+        sx={{
+          color: '#888',
+          fontWeight: 'normal',
+          fontSize: 16,
+          textAlign: 'center',
+        }}
+      >
+        {status}
+      </Typography>
+    </Paper>
   );
 };
 
 function StatusCarousel() {
   return (
-    <Carousel autoPlay animation="slide">
+    <Box sx={{ display: 'flex', justifyContent: 'space-around', padding: 2 }}>
       {carouselData.map((item) => (
-        <CarouselItem key={item.number} number={item.number} status={item.status} />
+        <Box key={item.number}>
+          <CarouselItem number={item.number} status={item.status} />
+        </Box>
       ))}
-    </Carousel>
+    </Box>
   );
 }
 

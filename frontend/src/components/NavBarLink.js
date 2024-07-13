@@ -3,10 +3,7 @@ import { Link } from "react-router-dom";
 import { Button } from "@mui/material";
 import "../styles/NavBar.css";
 
-// Function to convert string to Sentence Case
-const toSentenceCase = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
+
 export default function NabBarLink(props) {
   const { label, to , icon :IconComponent,color,bgcolor,hoverBgcolor,hovercolor,isActive , iconHovercolor} = props;
   return (
@@ -44,7 +41,7 @@ export default function NabBarLink(props) {
               }}
           />
         )}
-      {toSentenceCase(label)}
+      {label}
       </Button>
     </div>
   );
