@@ -8,7 +8,6 @@ export default function Dashboard() {
     <div>
         <NavBar/>
         <RequestsGrid/>
-        <CircularStatus/>
     </div>
   )
 }
