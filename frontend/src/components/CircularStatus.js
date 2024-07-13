@@ -3,12 +3,12 @@ import { styled } from "@emotion/styled";
 import { Paper, Typography, Box } from "@mui/material";
 
 const requestData = [
-  { number: "10", status: "new Requests" },
-  { number: "05", status: "Delayed Requests" },
-  { number: "02", status: "Escalated Requests" },
-  { number: "00", status: "On Hold Requests" },
+  { number: "10", status: "New Requests" ,backgroundColor:"#ffe2e8"},
+  { number: "05", status: "Delayed Requests" ,backgroundColor:"#95ae8b"},
+  { number: "02", status: "Escalated Requests",backgroundColor:"#d0eefe" },
+  { number: "00", status: "On Hold Requests",backgroundColor:"#d2d4ff" },
 ];
-const RequestItem = ({ number, status }) => {
+const RequestItem = ({ number, status ,backgroundColor }) => {
   return (
     <Paper
       sx={{
@@ -17,11 +17,11 @@ const RequestItem = ({ number, status }) => {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "50%",
-        width: 150,
-        height: 150,
-        backgroundColor: "#212121",
+        width: 100,
+        height: 100,
         padding: 2,
-        margin: "0 auto",
+        margin: "10px",
+        backgroundColor : backgroundColor
       }}
     >
       <Typography
@@ -29,19 +29,25 @@ const RequestItem = ({ number, status }) => {
         sx={{
           color: "white",
           fontWeight: "bold",
-          fontSize: 48,
-          marginBottom: 1,
-        }}
+          fontSize: 38,
+          // marginBottom: 1,
+          marginTop:0.1,
+          // fontFamily: "Inter",
+          fontWeight: 600,   
+          color : "#2C2C2C" 
+            }}
       >
         {number}
       </Typography>
       <Typography
         variant="subtitle2"
         sx={{
-          color: "#888",
+          color: "#404040",
           fontWeight: "normal",
-          fontSize: 16,
+          fontSize: 14,
           textAlign: "center",
+          // fontFamily: "'Inter', sans-serif",
+          fontWeight: 600,  
         }}
       >
         {status}
@@ -54,11 +60,15 @@ const RequestItem = ({ number, status }) => {
 
 export default function CircularStatus() {
   return <>
-          <Box sx={{ display: 'flex', justifyContent: 'space-around', padding: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'space-around', padding: 3 }}>
             {
               requestData.map((item) =>(
                     <Box key={item.number}>
-                      <RequestItem number={item.number} status={item.status} />
+                      <RequestItem 
+                            number={item.number} 
+                            status={item.status} 
+                            backgroundColor={item.backgroundColor}
+                            />
                     </Box>
               ))
             }

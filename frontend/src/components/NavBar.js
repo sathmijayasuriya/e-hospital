@@ -17,7 +17,7 @@ export default function NavBar() {
 
   return (
     <div className="navbar-container">
-      <h3 className="logo"> e - Hospital </h3>
+      <h3 className="logo" style={{fontFamily: 'Inter, sans-serif'}}> e - Hospital </h3>
       <div className="navbar">
         <NavBarLink label="Dashboard" to="/" icon = {HomeIcon} isActive={currentPath ==="/"}/>
         <NavBarLink label="Requests" to="/requests" icon = {TableRowsIcon}  isActive={currentPath === "/requests"} />
