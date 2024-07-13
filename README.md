@@ -1,27 +1,14 @@
-# e-hospital
-Full stack Development Assignment:
-Request Management System
+# Getting Started with Create React App
 
-Backend Requirements
-●Framework: Laravel 10+
-●Database: MySQL
-●API Endpoints:
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-GET /requests: Retrieve a list of requests.
-POST /requests: Add a new request.
-PATCH /requests/:id: Update an existing request.
-DELETE /requests/:id: Delete a request.
+## Available Scripts
+
+In the project directory, you can run:
 
 
-Detailed Tasks
 
-Backend Development:
-Define models and schemas for request data.
-Implement API endpoints for CRUD operations.
-Handle request validation and error handling.
-Test API endpoints using Postman or similar tools.
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-Integration:
-Connect frontend form and table to backend API.
-Implement state management for handling requests data.
-Ensure real-time updates of the request table upon adding/editing/deleting requests.
+

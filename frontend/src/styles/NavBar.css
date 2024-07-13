@@ -1,0 +1,53 @@
+.navbar-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* padding: 10px 20px; */
+    margin: none;
+    background-color: #830823;
+}
+
+.navbar {
+    height: auto;
+    /* border-radius: 0.5; */
+    background-color: #830823;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.navbardiv {
+    /* background-color: #830823; */
+    margin: 0 10px;
+    
+    /* Optional: add some spacing between the items */
+}
+
+.navbardiv .navbar-button {
+    width: auto;
+    text-align: center;
+    font-size: 15px;
+    border-radius: 5px;
+    margin: 5px;
+}
+
+.nav-icons {
+    display: flex;
+    background-color: #830823;
+    align-items: center;
+    margin-right: 25px;
+
+}
+.nav-icon {
+    margin-right: 30px;
+    /* background-color: rgb(255, 255, 255); */
+
+}
+.logo {
+
+    font-size: 20px; /* Adjust the size as needed */
+    color: white; /* Change the color as needed */
+    margin-left: 20px;
+    font-family: Quicksand;
+}
