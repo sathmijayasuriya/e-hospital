@@ -3,12 +3,12 @@ import { styled } from "@emotion/styled";
 import { Paper, Typography, Box } from "@mui/material";
 
 const requestData = [
-  { number: "10", status: "New Requests" ,backgroundColor:"#ffe2e8"},
-  { number: "05", status: "Delayed Requests" ,backgroundColor:"#95ae8b"},
-  { number: "02", status: "Escalated Requests",backgroundColor:"#d0eefe" },
-  { number: "00", status: "On Hold Requests",backgroundColor:"#d2d4ff" },
+  { number: "10", status: "New Requests" ,backgroundColor:"#ffb3cc" ,backgroundColorHover:"#ffccd3"},
+  { number: "05", status: "Delayed Requests" ,backgroundColor:"#b8b894",backgroundColorHover:"#e0e0d1"},
+  { number: "02", status: "Escalated Requests",backgroundColor:"#d0eefe" ,backgroundColorHover:"#ccffff"},
+  { number: "00", status: "On Hold Requests",backgroundColor:"#d2d4ff",backgroundColorHover:"#b5b7f7" },
 ];
-const RequestItem = ({ number, status ,backgroundColor }) => {
+const RequestItem = ({ number, status ,backgroundColor ,backgroundColorHover}) => {
   return (
     <Paper
       sx={{
@@ -21,7 +21,10 @@ const RequestItem = ({ number, status ,backgroundColor }) => {
         height: 100,
         padding: 2,
         margin: "10px",
-        backgroundColor : backgroundColor
+        backgroundColor : backgroundColor,
+        '&:hover':{
+          backgroundColor : backgroundColorHover
+        }
       }}
     >
       <Typography
@@ -68,6 +71,7 @@ export default function CircularStatus() {
                             number={item.number} 
                             status={item.status} 
                             backgroundColor={item.backgroundColor}
+                            backgroundColorHover = {item.backgroundColorHover}
                             />
                     </Box>
               ))
