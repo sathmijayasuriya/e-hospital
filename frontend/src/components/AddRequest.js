@@ -33,9 +33,9 @@ export default function AddRequest() {
                       icon = {AddIcon} 
                       color="white" 
                       bgcolor="#830823" 
-                      hoverBgcolor="#830823"
-                      hovercolor = "white"
-                      iconHovercolor = "white"
+                      hoverBgcolor="black"
+                      hovercolor = "#f4edda"
+                      iconHovercolor = "#black"
                       onClick={handleClickOpen}
                       />
           <RequestForm open={open} handleClose={handleClose}/>
