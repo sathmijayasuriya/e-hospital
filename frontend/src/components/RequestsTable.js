@@ -9,6 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import { Box } from "@mui/material";
+import SearchBar from "./SearchBar";
 
 const columns = [
   { id: "slNo", label: "SL no" },
@@ -172,6 +173,7 @@ export default function RequestsTable() {
   return (
     <>
       <Box sx={{ height: "auto", backgroundColor: "#f2f2f2", width: "auto%",padding:"30px"}}>
+        <SearchBar/>
         <Paper sx={{ width: "100%", overflow: "hidden" }}>
           <TableContainer sx={{ maxHeight: 500 }}>
             <Table stickyHeader aria-label="sticky table">

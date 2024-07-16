@@ -5,12 +5,13 @@ import "../styles/NavBar.css";
 
 
 export default function NabBarLink(props) {
-  const { label, to , icon :IconComponent,color,bgcolor,hoverBgcolor,hovercolor,isActive , iconHovercolor} = props;
+  const { label, to , icon :IconComponent,color,bgcolor,hoverBgcolor,hovercolor,isActive , iconHovercolor,onClick} = props;
   return (
     <div className="navbardiv">
       <Button className="navbar-button" 
               component={Link} 
               to={to}
+              onClick = {onClick}
               // sx = {{color : color||"white",
               //        backgroundColor:bgcolor||"#830823",
               //        '&:hover': {
