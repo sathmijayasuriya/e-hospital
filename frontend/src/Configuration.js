@@ -5,3 +5,5 @@ const Configuration = {
     APP_CODE:"1392",
     SESSION_ID: "1696306438325"
 }
+
+export default Configuration

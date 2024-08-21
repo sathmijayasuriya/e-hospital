@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,9 +10,8 @@ import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
-
+import { FetchRequests } from "../service/EhospitalAPI";
 const columns = [
-  { id: "slNo", label: "SL no" },
   { id: "requestId", label: "Request Id" },
   { id: "createdOn", label: "Created On" },
   { id: "location", label: "Location" },
@@ -24,7 +23,6 @@ const columns = [
 ];
 
 function createData(
-  slNo,
   requestId,
   createdOn,
   location,
@@ -35,7 +33,6 @@ function createData(
   priority
 ) {
   return {
-    slNo,
     requestId,
     createdOn,
     location,
@@ -49,7 +46,6 @@ function createData(
 
 const rows = [
   createData(
-    1,
     "REQ001",
     "2023-01-01",
     "New York",
@@ -60,7 +56,6 @@ const rows = [
     "High"
   ),
   createData(
-    2,
     "REQ002",
     "2023-02-01",
     "Los Angeles",
@@ -71,7 +66,6 @@ const rows = [
     "Medium"
   ),
   createData(
-    3,
     "REQ003",
     "2023-03-01",
     "Chicago",
@@ -82,7 +76,6 @@ const rows = [
     "Low"
   ),
   createData(
-    4,
     "REQ004",
     "2023-04-01",
     "Houston",
@@ -93,7 +86,6 @@ const rows = [
     "Medium"
   ),
   createData(
-    5,
     "REQ005",
     "2023-05-01",
     "Phoenix",
@@ -104,7 +96,6 @@ const rows = [
     "High"
   ),
   createData(
-    6,
     "REQ006",
     "2023-06-01",
     "Philadelphia",
@@ -114,55 +105,43 @@ const rows = [
     "Noah Brown",
     "Low"
   ),
-  createData(
-    7,
-    "REQ007",
-    "2023-07-01",
-    "San Antonio",
-    "IT Support",
-    "IT",
-    "Liam Red",
-    "Ava Blue",
-    "Medium"
-  ),
-  createData(
-    8,
-    "REQ008",
-    "2023-08-01",
-    "San Diego",
-    "IT Support",
-    "IT",
-    "Isabella Green",
-    "Mason Yellow",
-    "High"
-  ),
-  createData(
-    9,
-    "REQ009",
-    "2023-09-01",
-    "Dallas",
-    "IT Support",
-    "IT",
-    "Mia Black",
-    "Ethan White",
-    "Low"
-  ),
-  createData(
-    10,
-    "REQ010",
-    "2023-10-01",
-    "San Jose",
-    "IT Support",
-    "IT",
-    "Ella Gray",
-    "William Red",
-    "Medium"
-  ),
+
 ];
 
 export default function RequestsTable() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);  // State to hold the fetched data
+
+  useEffect(() => {
+    // Fetch data when component mounts
+    const fetchData = async () => {
+      try {
+        const data = await FetchRequests();
+        // Convert data to the format required for table
+        const formattedData = data.map((item, index) =>
+          createData(
+            index + 1,
+            item.requestID,
+            item.createdOn,  // Ensure your API returns a date string in the correct format
+            item.location,
+            item.service,
+            item.department,
+            item.requestedBy,
+            item.assignedTo,
+            item.priority
+          )
+        );
+        setRows(formattedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -170,6 +149,7 @@ export default function RequestsTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
   return (
     <>
       <Box sx={{ height: "auto", backgroundColor: "#f2f2f2", width: "auto%",padding:"30px"}}>
@@ -209,10 +189,10 @@ export default function RequestsTable() {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
+                            {column.format && typeof value === "number"
+                              ? column.format(value)
+                              : value}
+                          </TableCell>
                           );
                         })}
                       </TableRow>
