@@ -1,7 +1,7 @@
 package com.test.test.Service;
 
 
-import com.test.test.dto.RequestData;
+import com.test.test.dto.RequestDataDTO;
 import com.test.test.model.ReqData;
 import com.test.test.repository.ReqRepo;
 import org.modelmapper.ModelMapper;
@@ -24,11 +24,11 @@ public class Service {
         this.modelMapper = modelMapper;
     }
 
-    public List<RequestData> getData()
+    public List<RequestDataDTO> getData()
     {
         List<ReqData> reqDataList = reqRepo.getData();
-        List<RequestData> requestData1 = reqDataList.stream()
-                .map(reqData -> modelMapper.map(reqData, RequestData.class))
+        List<RequestDataDTO> requestData1 = reqDataList.stream()
+                .map(reqData -> modelMapper.map(reqData, RequestDataDTO.class))
                 .collect(Collectors.toList());
         return requestData1;
     }

@@ -1,7 +1,6 @@
-package com.test.test.model;
+package com.test.test.dto;
 
 
-import com.test.test.dto.ResponseHeaderDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,8 +10,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @Setter
 @Getter
-public class ReqData {
-    private ResponseHeader responseHeader;
+public class RequestDataDTO {
+
+    private ResponseHeaderDTO responseHeaderDTO;
     private String requestID;
     private String floor;
     private String room;
@@ -22,4 +22,5 @@ public class ReqData {
     private String department;
     private String requestedBy;
     private String assignedTo;
+
 }
