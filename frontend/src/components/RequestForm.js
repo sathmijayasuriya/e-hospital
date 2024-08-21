@@ -93,9 +93,16 @@ export default function RequestForm({ open, handleClose }) {
                   label="Room"
                   onChange={handleChange}
                 >
-                  <MenuItem value={10}>bed</MenuItem>
-                  <MenuItem value={20}>bed 2</MenuItem>
-                  <MenuItem value={30}>bed 3</MenuItem>
+                  <MenuItem value={10}>r1</MenuItem>
+                  <MenuItem value={20}>r2</MenuItem>
+                  <MenuItem value={30}>r3</MenuItem>
+                  <MenuItem value={30}>r4</MenuItem>
+                  <MenuItem value={30}>r5</MenuItem>
+                  <MenuItem value={30}>r6</MenuItem>
+                  <MenuItem value={30}>r7</MenuItem>
+                  <MenuItem value={30}>r8</MenuItem>
+                  <MenuItem value={30}>r9</MenuItem>
+                  <MenuItem value={30}>r10</MenuItem>
                 </Select>
               </FormControl>
             </Box>

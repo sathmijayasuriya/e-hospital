@@ -11,6 +11,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
 import { FetchRequests } from "../service/EhospitalAPI";
+
 const columns = [
   { id: "requestId", label: "Request Id" },
   { id: "createdOn", label: "Created On" },
@@ -22,16 +23,7 @@ const columns = [
   { id: "priority", label: "priority" },
 ];
 
-function createData(
-  requestId,
-  createdOn,
-  location,
-  service,
-  department,
-  requestBy,
-  assignTo,
-  priority
-) {
+function createData(requestId, createdOn,location,service,department,requestBy,assignTo,priority) {
   return {
     requestId,
     createdOn,
@@ -43,70 +35,6 @@ function createData(
     priority,
   };
 }
-
-const rows = [
-  createData(
-    "REQ001",
-    "2023-01-01",
-    "New York",
-    "IT Support",
-    "IT",
-    "John Doe",
-    "Jane Smith",
-    "High"
-  ),
-  createData(
-    "REQ002",
-    "2023-02-01",
-    "Los Angeles",
-    "Maintenance",
-    "Facilities",
-    "Alice Johnson",
-    "Bob Brown",
-    "Medium"
-  ),
-  createData(
-    "REQ003",
-    "2023-03-01",
-    "Chicago",
-    "Security",
-    "Security",
-    "Michael Green",
-    "Nancy White",
-    "Low"
-  ),
-  createData(
-    "REQ004",
-    "2023-04-01",
-    "Houston",
-    "Housekeeping",
-    "Facilities",
-    "Olivia Blue",
-    "David Black",
-    "Medium"
-  ),
-  createData(
-    "REQ005",
-    "2023-05-01",
-    "Phoenix",
-    "IT Support",
-    "IT",
-    "Lucas Gray",
-    "Emma Pink",
-    "High"
-  ),
-  createData(
-    "REQ006",
-    "2023-06-01",
-    "Philadelphia",
-    "IT Support",
-    "IT",
-    "Sophia Purple",
-    "Noah Brown",
-    "Low"
-  ),
-
-];
 
 export default function RequestsTable() {
   const [page, setPage] = useState(0);
@@ -124,7 +52,7 @@ export default function RequestsTable() {
             index + 1,
             item.requestID,
             item.createdOn,  // Ensure your API returns a date string in the correct format
-            item.location,
+            item.floor + item.room,
             item.service,
             item.department,
             item.requestedBy,
