@@ -13,6 +13,9 @@ import SearchBar from "./SearchBar";
 import { FetchRequests } from "../service/EhospitalAPI";
 import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { deepOrange, red,green } from '@mui/material/colors';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
 
 const columns = [
   { id: "requestId", label: "Request Id" },
@@ -24,8 +27,6 @@ const columns = [
   { id: "assignTo", label: "Assign To" },
   { id: "priority", label: "priority" },
   { id: "actions", label: "Actions" },
-
-
 ];
 
 function createData(requestId, createdOn,location,service,department,requestBy,assignTo,priority) {
@@ -51,11 +52,12 @@ export default function RequestsTable() {
     const fetchData = async () => {
       try {
         const data = await FetchRequests();
+        console.log("data ,"+data);
         // Convert data to the format required for table
         const formattedData = data.map((item) =>
           createData(
             item.requestID,
-            item.createdOn,  // Ensure your API returns a date string in the correct format
+            item.createdOn, 
             item.floor + item.room,
             item.service,
             item.department,
@@ -82,6 +84,16 @@ export default function RequestsTable() {
     setPage(0);
   };
 
+//delete button
+const handleDeleteClick = (requestID) =>{
+  console.log("delete request : " ,requestID)
+}
+
+//edit
+const handleEditClick = (requestID) =>{
+  console.log("edit request")
+}
+
   return (
     <>
       <Box sx={{ height: "auto", backgroundColor: "#f2f2f2", width: "auto%",padding:"30px"}}>
@@ -91,6 +103,7 @@ export default function RequestsTable() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
+                {/*  map the columns in table header row */}
                   {columns.map((column) => (
                     <TableCell
                       key={column.id}
@@ -99,7 +112,6 @@ export default function RequestsTable() {
                       sx={{ fontSize: '14px', 
                             backgroundColor : '#f4edda'
                       }}  // Adjust font size for headers
-
                     >
                       {column.label}
                     </TableCell>
@@ -107,27 +119,49 @@ export default function RequestsTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {rows   
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
+                  .map((row) => {   //each row in the sliced data
                     return (
                       <TableRow
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.requestId}
-                      >
+                        key={row.requestId}>   
+                        {/* // each row is uniquely identifiable */}
+
                         {columns.map((column) => {
-                          const value = row[column.id];
+                          const value = row[column.id]; //value = requestid , createon ...
+                          // /dynamically gets the data from the row object based on the column's id.
                           return (
                             <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
+                            {column.id === "actions" ? (
+                              <>
+                                <Stack direction="row" spacing={2}>
+                                {/* Edit Button */}
+                                <Avatar sx={{ bgcolor: red[400] }} alt="Remy Sharp">
+                                <BorderColorOutlinedIcon 
+                                  sx={{ cursor: 'pointer', marginRight: 1}}
+                                  onClick={() => handleEditClick(row.requestId)}
+                                />
+                                </Avatar>
+                                {/* Delete Button */}
+                                <Avatar alt="Remy Sharp" sx={{ bgcolor: green[300] }} >
+                                <DeleteOutlinedIcon 
+                                  sx={{ cursor: 'pointer' }}
+                                  onClick={() => handleDeleteClick(row.requestId)}
+                                />
+                                </Avatar>
+                                </Stack>
+                              </>
+                            ) : (
+                              value
+                            )}
                           </TableCell>
                           );
                         })}
                       </TableRow>
+
                     );
                   })}
               </TableBody>
