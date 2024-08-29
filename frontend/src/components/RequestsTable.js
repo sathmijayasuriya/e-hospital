@@ -11,9 +11,9 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
 import { FetchRequests } from "../service/EhospitalAPI";
-import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 import { deepOrange, red,green } from '@mui/material/colors';
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
 
@@ -140,7 +140,7 @@ const handleEditClick = (requestID) =>{
                                 <Stack direction="row" spacing={2}>
                                 {/* Edit Button */}
                                 <Avatar sx={{ bgcolor: red[400] }} alt="Remy Sharp">
-                                <BorderColorOutlinedIcon 
+                                <EditNoteIcon  
                                   sx={{ cursor: 'pointer', marginRight: 1}}
                                   onClick={() => handleEditClick(row.requestId)}
                                 />
