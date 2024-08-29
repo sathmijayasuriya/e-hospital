@@ -11,6 +11,8 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
 import { FetchRequests } from "../service/EhospitalAPI";
+import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
 
 const columns = [
   { id: "requestId", label: "Request Id" },
@@ -21,6 +23,9 @@ const columns = [
   { id: "requestBy", label: "Request By" },
   { id: "assignTo", label: "Assign To" },
   { id: "priority", label: "priority" },
+  { id: "actions", label: "Actions" },
+
+
 ];
 
 function createData(requestId, createdOn,location,service,department,requestBy,assignTo,priority) {
@@ -47,9 +52,8 @@ export default function RequestsTable() {
       try {
         const data = await FetchRequests();
         // Convert data to the format required for table
-        const formattedData = data.map((item, index) =>
+        const formattedData = data.map((item) =>
           createData(
-            index + 1,
             item.requestID,
             item.createdOn,  // Ensure your API returns a date string in the correct format
             item.floor + item.room,
@@ -111,7 +115,7 @@ export default function RequestsTable() {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.code}
+                        key={row.requestId}
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
