@@ -12,16 +12,19 @@ import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
 import { FetchRequests } from "../service/EhospitalAPI";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { deepOrange, red,green } from '@mui/material/colors';
+import { deepOrange, red,green, blue } from '@mui/material/colors';
 import EditNoteIcon from '@mui/icons-material/EditNote';
+import DoneIcon from '@mui/icons-material/Done';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
+
 
 const columns = [
   { id: "requestId", label: "Request Id" },
   { id: "createdOn", label: "Created On" },
   { id: "location", label: "Location" },
   { id: "service", label: "Service" },
+  { id: "status", label: "Status" },
   { id: "department", label: "Department" },
   { id: "requestBy", label: "Request By" },
   { id: "assignTo", label: "Assign To" },
@@ -29,12 +32,13 @@ const columns = [
   { id: "actions", label: "Actions" },
 ];
 
-function createData(requestId, createdOn,location,service,department,requestBy,assignTo,priority) {
+function createData(requestId, createdOn,location,service,status,department,requestBy,assignTo,priority) {
   return {
     requestId,
     createdOn,
     location,
     service,
+    status,
     department,
     requestBy,
     assignTo,
@@ -60,6 +64,7 @@ export default function RequestsTable() {
             item.createdOn, 
             item.floor + item.room,
             item.service,
+            item.status,
             item.department,
             item.requestedBy,
             item.assignedTo,
@@ -110,7 +115,8 @@ const handleEditClick = (requestID) =>{
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
                       sx={{ fontSize: '14px', 
-                            backgroundColor : '#f4edda'
+                            backgroundColor : '#f4edda',
+                            textAlign:"center",
                       }}  // Adjust font size for headers
                     >
                       {column.label}
@@ -127,27 +133,33 @@ const handleEditClick = (requestID) =>{
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.requestId}>   
+                        key={row.requestId}
+                        >   
                         {/* // each row is uniquely identifiable */}
 
                         {columns.map((column) => {
                           const value = row[column.id]; //value = requestid , createon ...
                           // /dynamically gets the data from the row object based on the column's id.
                           return (
-                            <TableCell key={column.id} align={column.align}>
+                            <TableCell key={column.id} align={column.align} sx={{textAlign:"center"}}>
                             {column.id === "actions" ? (
                               <>
-                                <Stack direction="row" spacing={2}>
-                                {/* Edit Button */}
-                                <Avatar sx={{ bgcolor: red[400] }} alt="Remy Sharp">
+                                <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+                                <Avatar sx={{ bgcolor: blue[500] }} alt="Remy Sharp">
                                 <EditNoteIcon  
                                   sx={{ cursor: 'pointer', marginRight: 1}}
                                   onClick={() => handleEditClick(row.requestId)}
                                 />
                                 </Avatar>
                                 {/* Delete Button */}
-                                <Avatar alt="Remy Sharp" sx={{ bgcolor: green[300] }} >
+                                <Avatar alt="Remy Sharp" sx={{ bgcolor: red[500] }} >
                                 <DeleteOutlinedIcon 
+                                  sx={{ cursor: 'pointer' }}
+                                  onClick={() => handleDeleteClick(row.requestId)}
+                                />
+                                </Avatar>
+                                <Avatar alt="Remy Sharp" sx={{ bgcolor: green[400] }} >
+                                <DoneIcon 
                                   sx={{ cursor: 'pointer' }}
                                   onClick={() => handleDeleteClick(row.requestId)}
                                 />

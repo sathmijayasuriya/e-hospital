@@ -47,9 +47,9 @@ export default function RequestForm({ open, handleClose }) {
         onClose={handleClose}
         fullWidth
         // maxWidth = "md"
-        sx={{
-          backdropFilter: "blur(5px) sepia(3%)",
-        }}
+        // sx={{
+        //   backdropFilter: "blur(5px) sepia(3%)",
+        // }}
         PaperProps={{
           sx: {
             borderRadius: "10px 10px",
@@ -93,7 +93,7 @@ export default function RequestForm({ open, handleClose }) {
                   label="Room"
                   onChange={handleChange}
                 >
-                  <MenuItem value={10}>r1</MenuItem>
+                  <MenuItem wvalue={10}>r1</MenuItem>
                   <MenuItem value={20}>r2</MenuItem>
                   <MenuItem value={30}>r3</MenuItem>
                   <MenuItem value={30}>r4</MenuItem>

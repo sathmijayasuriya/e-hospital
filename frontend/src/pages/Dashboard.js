@@ -7,8 +7,9 @@ export default function Dashboard() {
   return (
     <div>
         <NavBar/>
-        <RequestsGrid/>
-        <RequestsTable/>
+        {/* <RequestsGrid/>
+        <RequestsTable/> */}
+        
     </div>
   )
 }
