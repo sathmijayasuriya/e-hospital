@@ -6,4 +6,5 @@ public class ResponseCode {
     public static final String SUCCESS = "1111";
     public static final String REJECT = "9999";
     public static final String CANCELLED = "2222";
+
 }
