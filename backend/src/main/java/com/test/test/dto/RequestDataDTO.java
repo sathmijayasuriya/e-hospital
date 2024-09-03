@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Date;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -14,6 +16,8 @@ public class RequestDataDTO {
 
     private ResponseHeaderDTO responseHeaderDTO;
     private String requestID;
+    private Date createdOn;
+
     private String floor;
     private String room;
     private String service;

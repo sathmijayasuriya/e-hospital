@@ -1,9 +1,8 @@
 package com.test.test.controller;
 
 
-import com.google.gson.Gson;
 import com.test.test.Service.Service;
-import com.test.test.dto.RequestData;
+import com.test.test.dto.RequestDataDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +28,10 @@ public class TestController {
     }
 
 
-    @GetMapping("/getRequestData")
-    public ResponseEntity<List<RequestData>> getData()
+    @GetMapping("/testGetRequestData")
+    public ResponseEntity<List<RequestDataDTO>> getData()
     {
-        List<RequestData> response1 = service.getData();
+        List<RequestDataDTO> response1 = service.getData();
         return ResponseEntity.ok(response1);
     }
 }
