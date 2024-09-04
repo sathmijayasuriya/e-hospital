@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   Dialog,
   DialogTitle,
@@ -13,8 +13,10 @@ import {
   MenuItem,
   Box,
 } from "@mui/material";
+import { addRequestData } from "../service/EhospitalAPI";
+import { editRequestData } from "../service/EhospitalAPI";
 
-export default function RequestForm({ open, handleClose }) {
+export default function RequestForm({ open, handleClose, requestData = {}, isEditing = false }) {
   const [formData, setFormData] = useState({
     requestId: "",
     floor: "",
@@ -27,6 +29,14 @@ export default function RequestForm({ open, handleClose }) {
     assignedTo: "",
   });
 
+
+  // Populate form with existing data when editing
+  useEffect(() => {
+    if (isEditing && requestData) {
+      setFormData(requestData); // Pre-fill the form with request data if editing
+    }
+  }, [isEditing, requestData]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -35,10 +45,23 @@ export default function RequestForm({ open, handleClose }) {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    handleClose();
+
+    try {
+      if (isEditing) {
+        // Edit existing request
+        await editRequestData(formData);  // Update API call
+        console.log("Request edited: ", formData);
+      } else {
+        // Add new request
+        await addRequestData(formData);  // Add API call
+        console.log("Request added: ", formData);
+      }
+      handleClose(); // Close the form after submission
+    } catch (error) {
+      console.error("Error submitting form: ", error);
+    }
   };
   return (
     <div>
@@ -197,7 +220,7 @@ export default function RequestForm({ open, handleClose }) {
         </form>
         <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">Submit</Button>
+          <Button type="submit">{isEditing ? "Update" : "Submit"}</Button>
         </DialogActions>
       </Dialog>
     </div>

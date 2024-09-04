@@ -14,3 +14,27 @@ export const FetchRequests = async() =>{
         throw error;
     }
 }
+// For adding a request
+export const addRequestData = async (formData) => {
+    const response = await fetch("/api/ehospital/addRequestData", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    return await response.json();
+  };
+  
+  // For editing a request
+  export const editRequestData = async (formData) => {
+    const response = await fetch(`/api/ehospital/editRequestData/${formData.requestId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+    return await response.json();
+  };
+  

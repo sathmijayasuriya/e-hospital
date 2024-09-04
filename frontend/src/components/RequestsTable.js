@@ -17,7 +17,7 @@ import EditNoteIcon from '@mui/icons-material/EditNote';
 import DoneIcon from '@mui/icons-material/Done';
 import Avatar from '@mui/material/Avatar';
 import Stack from '@mui/material/Stack';
-
+import RequestForm from "./RequestForm";
 
 const columns = [
   { id: "requestId", label: "Request Id" },
@@ -26,13 +26,13 @@ const columns = [
   { id: "service", label: "Service" },
   { id: "status", label: "Status" },
   { id: "department", label: "Department" },
-  { id: "requestBy", label: "Request By" },
-  { id: "assignTo", label: "Assign To" },
+  { id: "requestedBy", label: "Request By" },
+  { id: "assignedTo", label: "Assign To" },
   { id: "priority", label: "priority" },
   { id: "actions", label: "Actions" },
 ];
 
-function createData(requestId, createdOn,location,service,status,department,requestBy,assignTo,priority) {
+function createData(requestId, createdOn,location,service,status,department,requestedBy,assignedTo,priority) {
   return {
     requestId,
     createdOn,
@@ -40,16 +40,21 @@ function createData(requestId, createdOn,location,service,status,department,requ
     service,
     status,
     department,
-    requestBy,
-    assignTo,
+    requestedBy,
+    assignedTo,
     priority,
   };
 }
 
 export default function RequestsTable() {
+  //fetch
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [rows, setRows] = useState([]);  // State to hold the fetched data
+
+  //edit form handling
+  const [formOpen, setFormOpen] = useState(false); // Control the form dialog visibility
+  const [selectedRequest, setSelectedRequest] = useState(null); // Holds the request data for editi
 
   useEffect(() => {
     // Fetch data when component mounts
@@ -95,8 +100,11 @@ const handleDeleteClick = (requestID) =>{
 }
 
 //edit
-const handleEditClick = (requestID) =>{
-  console.log("edit request")
+const handleEditClick = (row) =>{
+  console.log("edit request", row);
+  setSelectedRequest(row); // Set the full request row as the selected request
+  setFormOpen(true); // Open the form
+
 }
 
   return (
@@ -129,14 +137,8 @@ const handleEditClick = (requestID) =>{
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                   .map((row) => {   //each row in the sliced data
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.requestId}
-                        >   
+                      <TableRow hover role="checkbox" tabIndex={-1} key={row.requestId}>   
                         {/* // each row is uniquely identifiable */}
-
                         {columns.map((column) => {
                           const value = row[column.id]; //value = requestid , createon ...
                           // /dynamically gets the data from the row object based on the column's id.
@@ -148,7 +150,7 @@ const handleEditClick = (requestID) =>{
                                 <Avatar sx={{ bgcolor: blue[500] }} alt="Remy Sharp">
                                 <EditNoteIcon  
                                   sx={{ cursor: 'pointer', marginRight: 1}}
-                                  onClick={() => handleEditClick(row.requestId)}
+                                  onClick={() => handleEditClick(row)}
                                 />
                                 </Avatar>
                                 {/* Delete Button */}
@@ -190,6 +192,14 @@ const handleEditClick = (requestID) =>{
           />
         </Paper>{" "}
       </Box>
+
+      <RequestForm 
+        open={formOpen} 
+        handleClose={() => setFormOpen(false)} 
+        requestData={selectedRequest} // Pass the selected request to edit
+        isEditing={!!selectedRequest} // Mark as editing mode if a request is selected
+      />
     </>
+
   );
 }
