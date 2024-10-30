@@ -230,8 +230,17 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
           </DialogContent>
         </form>
         <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit">{isEditing ? "Update" : "Submit"}</Button>
+          <Button 
+          variant="contained" 
+          
+          sx={{ backgroundColor:"black",color: "white", "&:hover": { backgroundColor: "#830823" } }} 
+          onClick={handleClose}>
+            Cancel
+            </Button>
+          <Button variant="contained" 
+          sx={{backgroundColor:"black",color: "white", "&:hover": { backgroundColor: "#830823" } }} 
+          type="submit">{isEditing ? "Update" : "Submit"}
+          </Button>
         </DialogActions>
       </Dialog>
     </div>

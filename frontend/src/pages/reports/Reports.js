@@ -5,6 +5,7 @@ import { Typography } from '@mui/material'
 import { useState } from 'react';
 import AddIcon from '@mui/icons-material/Add';
 import NabBarLink from '../../components/NavBarLink';
+import ReportFile from './ReportFile';
 
 export default function Reports() {
 
@@ -20,11 +21,6 @@ export default function Reports() {
     
     <div>
       <NavBar/>
-      <Box sx={{display:'flex',
-              flexDirection:'row', 
-              justifyContent:'space-around',
-              alignItems :'center'
-              }}>
               <div style={{display:"flex",
                       justifyItems:"flex-start",
                       padding:"20px",
@@ -35,9 +31,9 @@ export default function Reports() {
                         fontWeight: 500,
                       }}
                       >  
-                        Requests
+                        Reports
                       </Typography>
-                      <NabBarLink label = "New Reuqest" 
+                      <NabBarLink label = "Add Report Details" 
                       // to ="/" 
                       icon = {AddIcon} 
                       color="white" 
@@ -47,9 +43,8 @@ export default function Reports() {
                       iconHovercolor = "#black"
                       onClick={handleClickOpen}
                       />
-                      {/* <RequestForm open={open} handleClose={handleClose}/>          */}
+                      <ReportFile open={open} handleClose={handleClose}/>         
               </div>
-      </Box>
     </div>
   )
 }

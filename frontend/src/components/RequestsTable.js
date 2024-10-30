@@ -12,7 +12,7 @@ import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
 import { FetchRequests } from "../service/EhospitalAPI";
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
-import { deepOrange, red,green, blue } from '@mui/material/colors';
+import { pink, red,green, blue } from '@mui/material/colors';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import DoneIcon from '@mui/icons-material/Done';
 import Avatar from '@mui/material/Avatar';
@@ -123,8 +123,9 @@ const handleEditClick = (row) =>{
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
                       sx={{ fontSize: '14px', 
-                            backgroundColor : '#f4edda',
                             textAlign:"center",
+                            color:"black",
+                            borderBottom: '3px solid #d9d9d9' // Change this to the desired colo
                       }}  // Adjust font size for headers
                     >
                       {column.label}
@@ -147,9 +148,9 @@ const handleEditClick = (row) =>{
                             {column.id === "actions" ? (
                               <>
                                 <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                                <Avatar sx={{width: 32, height: 32, bgcolor: blue[500] }} alt="Remy Sharp">
+                                <Avatar sx={{width: 32, height: 32, bgcolor: pink[200] }} alt="Remy Sharp">
                                 <EditNoteIcon  
-                                  sx={{ cursor: 'pointer', marginRight: 1,fontSize: '18px'}}
+                                  sx={{ cursor: 'pointer', marginRight: 1,fontSize: '15px'}}
                                   onClick={() => handleEditClick(row)}
                                 />
                                 </Avatar>
@@ -160,9 +161,9 @@ const handleEditClick = (row) =>{
                                   onClick={() => handleDeleteClick(row.requestId)}
                                 />
                                 </Avatar>
-                                <Avatar alt="Remy Sharp" sx={{width: 32, height: 32, bgcolor: green[400] }} >
+                                <Avatar alt="Remy Sharp" sx={{width: 32, height: 32, bgcolor: green[300] }} >
                                 <DoneIcon 
-                                  sx={{ cursor: 'pointer' ,fontSize: '18px'}}
+                                  sx={{ cursor: 'pointer' ,fontSize: '15px'}}
                                   onClick={() => handleDeleteClick(row.requestId)}
                                 />
                                 </Avatar>

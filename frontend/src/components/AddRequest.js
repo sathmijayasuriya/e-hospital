@@ -22,8 +22,8 @@ export default function AddRequest() {
                       margin:"20px"}}>
           <Typography variant="h4" 
                       sx={{ 
-                        fontFamily: "Inter, sans-serif",
-                        fontWeight: 500,
+                       // fontFamily: "Inter, sans-serif",
+                        fontWeight: 600,
                       }}
                       >  
                         Requests
