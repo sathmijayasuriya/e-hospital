@@ -33,9 +33,20 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
   // Populate form with existing data when editing
   useEffect(() => {
     if (isEditing && requestData) {
-      setFormData(requestData); // Pre-fill the form with request data if editing
+      setFormData({
+        requestId: requestData.requestId || "", // handle default values
+        floor: requestData.floor || "",
+        room: requestData.room || "",
+        service: requestData.service || "",
+        status: requestData.status || "",
+        priority: requestData.priority || "",
+        department: requestData.department || "",
+        requestedBy: requestData.requestedBy || "",
+        assignedTo: requestData.assignedTo || "",
+      });
     }
   }, [isEditing, requestData]);
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;

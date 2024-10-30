@@ -65,7 +65,7 @@ export default function RequestsTable() {
         // Convert data to the format required for table
         const formattedData = data.map((item) =>
           createData(
-            item.requestID,
+            item.requestId,
             item.createdOn, 
             item.floor + item.room,
             item.service,
@@ -95,8 +95,8 @@ export default function RequestsTable() {
   };
 
 //delete button
-const handleDeleteClick = (requestID) =>{
-  console.log("delete request : " ,requestID)
+const handleDeleteClick = (requestId) =>{
+  console.log("delete request : " ,requestId)
 }
 
 //edit
@@ -147,22 +147,22 @@ const handleEditClick = (row) =>{
                             {column.id === "actions" ? (
                               <>
                                 <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
-                                <Avatar sx={{ bgcolor: blue[500] }} alt="Remy Sharp">
+                                <Avatar sx={{width: 32, height: 32, bgcolor: blue[500] }} alt="Remy Sharp">
                                 <EditNoteIcon  
-                                  sx={{ cursor: 'pointer', marginRight: 1}}
+                                  sx={{ cursor: 'pointer', marginRight: 1,fontSize: '18px'}}
                                   onClick={() => handleEditClick(row)}
                                 />
                                 </Avatar>
                                 {/* Delete Button */}
-                                <Avatar alt="Remy Sharp" sx={{ bgcolor: red[500] }} >
+                                <Avatar alt="Remy Sharp" sx={{width: 32, height: 32,bgcolor: red[500] }} >
                                 <DeleteOutlinedIcon 
-                                  sx={{ cursor: 'pointer' }}
+                                  sx={{ cursor: 'pointer', fontSize: '18px' }}
                                   onClick={() => handleDeleteClick(row.requestId)}
                                 />
                                 </Avatar>
-                                <Avatar alt="Remy Sharp" sx={{ bgcolor: green[400] }} >
+                                <Avatar alt="Remy Sharp" sx={{width: 32, height: 32, bgcolor: green[400] }} >
                                 <DoneIcon 
-                                  sx={{ cursor: 'pointer' }}
+                                  sx={{ cursor: 'pointer' ,fontSize: '18px'}}
                                   onClick={() => handleDeleteClick(row.requestId)}
                                 />
                                 </Avatar>
