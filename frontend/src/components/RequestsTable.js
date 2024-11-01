@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,159 +10,82 @@ import TableRow from "@mui/material/TableRow";
 import { useState } from "react";
 import { Box } from "@mui/material";
 import SearchBar from "./SearchBar";
+import { FetchRequests } from "../service/EhospitalAPI";
+import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined';
+import { pink, red,green, blue } from '@mui/material/colors';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import DoneIcon from '@mui/icons-material/Done';
+import Avatar from '@mui/material/Avatar';
+import Stack from '@mui/material/Stack';
+import RequestForm from "./RequestForm";
 
 const columns = [
-  { id: "slNo", label: "SL no" },
   { id: "requestId", label: "Request Id" },
   { id: "createdOn", label: "Created On" },
   { id: "location", label: "Location" },
   { id: "service", label: "Service" },
+  { id: "status", label: "Status" },
   { id: "department", label: "Department" },
-  { id: "requestBy", label: "Request By" },
-  { id: "assignTo", label: "Assign To" },
+  { id: "requestedBy", label: "Request By" },
+  { id: "assignedTo", label: "Assign To" },
   { id: "priority", label: "priority" },
+  { id: "actions", label: "Actions" },
 ];
 
-function createData(
-  slNo,
-  requestId,
-  createdOn,
-  location,
-  service,
-  department,
-  requestBy,
-  assignTo,
-  priority
-) {
+function createData(requestId, createdOn,location,service,status,department,requestedBy,assignedTo,priority) {
   return {
-    slNo,
     requestId,
     createdOn,
     location,
     service,
+    status,
     department,
-    requestBy,
-    assignTo,
+    requestedBy,
+    assignedTo,
     priority,
   };
 }
 
-const rows = [
-  createData(
-    1,
-    "REQ001",
-    "2023-01-01",
-    "New York",
-    "IT Support",
-    "IT",
-    "John Doe",
-    "Jane Smith",
-    "High"
-  ),
-  createData(
-    2,
-    "REQ002",
-    "2023-02-01",
-    "Los Angeles",
-    "Maintenance",
-    "Facilities",
-    "Alice Johnson",
-    "Bob Brown",
-    "Medium"
-  ),
-  createData(
-    3,
-    "REQ003",
-    "2023-03-01",
-    "Chicago",
-    "Security",
-    "Security",
-    "Michael Green",
-    "Nancy White",
-    "Low"
-  ),
-  createData(
-    4,
-    "REQ004",
-    "2023-04-01",
-    "Houston",
-    "Housekeeping",
-    "Facilities",
-    "Olivia Blue",
-    "David Black",
-    "Medium"
-  ),
-  createData(
-    5,
-    "REQ005",
-    "2023-05-01",
-    "Phoenix",
-    "IT Support",
-    "IT",
-    "Lucas Gray",
-    "Emma Pink",
-    "High"
-  ),
-  createData(
-    6,
-    "REQ006",
-    "2023-06-01",
-    "Philadelphia",
-    "IT Support",
-    "IT",
-    "Sophia Purple",
-    "Noah Brown",
-    "Low"
-  ),
-  createData(
-    7,
-    "REQ007",
-    "2023-07-01",
-    "San Antonio",
-    "IT Support",
-    "IT",
-    "Liam Red",
-    "Ava Blue",
-    "Medium"
-  ),
-  createData(
-    8,
-    "REQ008",
-    "2023-08-01",
-    "San Diego",
-    "IT Support",
-    "IT",
-    "Isabella Green",
-    "Mason Yellow",
-    "High"
-  ),
-  createData(
-    9,
-    "REQ009",
-    "2023-09-01",
-    "Dallas",
-    "IT Support",
-    "IT",
-    "Mia Black",
-    "Ethan White",
-    "Low"
-  ),
-  createData(
-    10,
-    "REQ010",
-    "2023-10-01",
-    "San Jose",
-    "IT Support",
-    "IT",
-    "Ella Gray",
-    "William Red",
-    "Medium"
-  ),
-];
-
 export default function RequestsTable() {
+  //fetch
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rows, setRows] = useState([]);  // State to hold the fetched data
+
+  //edit form handling
+  const [formOpen, setFormOpen] = useState(false); // Control the form dialog visibility
+  const [selectedRequest, setSelectedRequest] = useState(null); // Holds the request data for editi
+
+  useEffect(() => {
+    // Fetch data when component mounts
+    const fetchData = async () => {
+      try {
+        const data = await FetchRequests();
+        console.log("data ,"+data);
+        // Convert data to the format required for table
+        const formattedData = data.map((item) =>
+          createData(
+            item.requestId,
+            item.createdOn, 
+            item.floor + item.room,
+            item.service,
+            item.status,
+            item.department,
+            item.requestedBy,
+            item.assignedTo,
+            item.priority
+          )
+        );
+        setRows(formattedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
@@ -170,6 +93,20 @@ export default function RequestsTable() {
     setRowsPerPage(+event.target.value);
     setPage(0);
   };
+
+//delete button
+const handleDeleteClick = (requestId) =>{
+  console.log("delete request : " ,requestId)
+}
+
+//edit
+const handleEditClick = (row) =>{
+  console.log("edit request", row);
+  setSelectedRequest(row); // Set the full request row as the selected request
+  setFormOpen(true); // Open the form
+
+}
+
   return (
     <>
       <Box sx={{ height: "auto", backgroundColor: "#f2f2f2", width: "auto%",padding:"30px"}}>
@@ -179,15 +116,17 @@ export default function RequestsTable() {
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
                 <TableRow>
+                {/*  map the columns in table header row */}
                   {columns.map((column) => (
                     <TableCell
                       key={column.id}
                       align={column.align}
                       style={{ minWidth: column.minWidth }}
                       sx={{ fontSize: '14px', 
-                            backgroundColor : '#ff9933'
+                            textAlign:"center",
+                            color:"black",
+                            borderBottom: '3px solid #d9d9d9' // Change this to the desired colo
                       }}  // Adjust font size for headers
-
                     >
                       {column.label}
                     </TableCell>
@@ -195,27 +134,49 @@ export default function RequestsTable() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {rows
+                {rows   
                   .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                  .map((row) => {
+                  .map((row) => {   //each row in the sliced data
                     return (
-                      <TableRow
-                        hover
-                        role="checkbox"
-                        tabIndex={-1}
-                        key={row.code}
-                      >
+                      <TableRow hover role="checkbox" tabIndex={-1} key={row.requestId}>   
+                        {/* // each row is uniquely identifiable */}
                         {columns.map((column) => {
-                          const value = row[column.id];
+                          const value = row[column.id]; //value = requestid , createon ...
+                          // /dynamically gets the data from the row object based on the column's id.
                           return (
-                            <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
-                            </TableCell>
+                            <TableCell key={column.id} align={column.align} sx={{textAlign:"center"}}>
+                            {column.id === "actions" ? (
+                              <>
+                                <Stack direction="row" spacing={2} sx={{ justifyContent: "center" }}>
+                                <Avatar sx={{width: 32, height: 32, bgcolor: pink[200] }} alt="Remy Sharp">
+                                <EditNoteIcon  
+                                  sx={{ cursor: 'pointer', marginRight: 1,fontSize: '15px'}}
+                                  onClick={() => handleEditClick(row)}
+                                />
+                                </Avatar>
+                                {/* Delete Button */}
+                                <Avatar alt="Remy Sharp" sx={{width: 32, height: 32,bgcolor: red[500] }} >
+                                <DeleteOutlinedIcon 
+                                  sx={{ cursor: 'pointer', fontSize: '18px' }}
+                                  onClick={() => handleDeleteClick(row.requestId)}
+                                />
+                                </Avatar>
+                                <Avatar alt="Remy Sharp" sx={{width: 32, height: 32, bgcolor: green[300] }} >
+                                <DoneIcon 
+                                  sx={{ cursor: 'pointer' ,fontSize: '15px'}}
+                                  onClick={() => handleDeleteClick(row.requestId)}
+                                />
+                                </Avatar>
+                                </Stack>
+                              </>
+                            ) : (
+                              value
+                            )}
+                          </TableCell>
                           );
                         })}
                       </TableRow>
+
                     );
                   })}
               </TableBody>
@@ -232,6 +193,14 @@ export default function RequestsTable() {
           />
         </Paper>{" "}
       </Box>
+
+      <RequestForm 
+        open={formOpen} 
+        handleClose={() => setFormOpen(false)} 
+        requestData={selectedRequest} // Pass the selected request to edit
+        isEditing={!!selectedRequest} // Mark as editing mode if a request is selected
+      />
     </>
+
   );
 }

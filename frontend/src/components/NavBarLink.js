@@ -5,7 +5,7 @@ import "../styles/NavBar.css";
 
 
 export default function NabBarLink(props) {
-  const { label, to , icon :IconComponent,color,bgcolor,hoverBgcolor,hovercolor,isActive , iconHovercolor,onClick} = props;
+  const { label, to , icon :IconComponent,color,bgcolor,hoverBgcolor,hovercolor,isActive , iconHovercolor,onClick,} = props;
   return (
     <div className="navbardiv">
       <Button className="navbar-button" 
@@ -20,7 +20,7 @@ export default function NabBarLink(props) {
               //        },
               sx={{
                       fontFamily: "Inter, sans-serif",
-                      fontWeight: 300,
+                      fontWeight: 500,
                       color: isActive ? '#830823' : color || "white",
                       backgroundColor: isActive ? 'white' : bgcolor || "#830823",
                       '&:hover': {

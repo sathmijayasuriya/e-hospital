@@ -20,9 +20,7 @@
 .navbardiv {
     /* background-color: #830823; */
     margin: 0 10px;
-    
-    /* Optional: add some spacing between the items */
-}
+    }
 
 .navbardiv .navbar-button {
     width: auto;

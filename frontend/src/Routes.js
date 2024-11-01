@@ -5,7 +5,7 @@ import SignIn from "./pages/SignIn";
 import Requests from "./pages/Requests";
 import Settings from "./pages/Settings";
 import Feedbacks from "./pages/Feedbacks";
-import Reports from "./pages/Reports";
+import Reports from "./pages/reports/Reports";
 import Patient from "./pages/Patient";
 
 export const router = createBrowserRouter([

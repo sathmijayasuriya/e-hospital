@@ -1,11 +1,13 @@
 import React from 'react'
+import NavBar from '../../components/NavBar'
+import { Box } from '@mui/material'
 import { Typography } from '@mui/material'
-import NabBarLink from './NavBarLink'
-import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
-import RequestForm from './RequestForm';
+import AddIcon from '@mui/icons-material/Add';
+import NabBarLink from '../../components/NavBarLink';
+import ReportFile from './ReportFile';
 
-export default function AddRequest() {
+export default function Reports() {
 
   const [open, setOpen] = useState(false);
   const handleClickOpen = () =>{
@@ -16,19 +18,22 @@ export default function AddRequest() {
   }
   
   return (
-        <div style={{display:"flex",
+    
+    <div>
+      <NavBar/>
+              <div style={{display:"flex",
                       justifyItems:"flex-start",
                       padding:"20px",
                       margin:"20px"}}>
-          <Typography variant="h4" 
+                <Typography variant="h4" 
                       sx={{ 
-                       // fontFamily: "Inter, sans-serif",
-                        fontWeight: 600,
+                        fontFamily: "Inter, sans-serif",
+                        fontWeight: 500,
                       }}
                       >  
-                        Requests
+                        Reports
                       </Typography>
-          <NabBarLink label = "New Reuqest" 
+                      <NabBarLink label = "Add Report Details" 
                       // to ="/" 
                       icon = {AddIcon} 
                       color="white" 
@@ -38,7 +43,8 @@ export default function AddRequest() {
                       iconHovercolor = "#black"
                       onClick={handleClickOpen}
                       />
-          <RequestForm open={open} handleClose={handleClose}/>
-        </div>
+                      <ReportFile open={open} handleClose={handleClose}/>         
+              </div>
+    </div>
   )
 }
