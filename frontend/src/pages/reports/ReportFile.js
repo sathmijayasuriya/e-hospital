@@ -17,6 +17,8 @@ import { Typography } from '@mui/material'
 import { addRequestData } from "../../service/EhospitalAPI";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import axios from "axios";
+
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -32,13 +34,12 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function ReportFile({open,handleClose,requestData = {},}) {
 
-    const [pdfFile, setPdfFile] = useState(null);
-    const [formData, setFormData] = useState({
-        reportID : "",
-        reportType: "",
-        reportDateStart: "",
-        reportDateEnd: "",
-      });
+  const [pdfFile, setPdfFile] = useState(null);
+  const [formData, setFormData] = useState({
+      reportType: "",
+      reportDateStart: "",
+      reportDateEnd: "",
+  });
     // useEffect(() => {
     //     if (isEditing && requestData) {
     //       setFormData({
@@ -56,35 +57,44 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
     //   }, []);
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file && file.type === "application/pdf") {
+      const file = e.target.files[0];
+      if (file && file.type === "application/pdf") {
           setPdfFile(file);
-        } else {
+      } else {
           alert("Please upload a PDF file.");
-        }
-      };
+      }
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-      };
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        try { 
-            // Add new request
-            await addRequestData(formData);  // Add API call
-            console.log("Report added: ", formData);
-          
-          handleClose(); // Close the form after submission
-        } catch (error) {
-          console.error("Error submitting form: ", error);
-        }
-      };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+    }));
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const uploadData = new FormData();
+  uploadData.append("reportType", formData.reportType);
+  uploadData.append("reportDateStart", formData.reportDateStart);
+  uploadData.append("reportDateEnd", formData.reportDateEnd);
+  uploadData.append("file", pdfFile);
+
+  try {
+      await axios.post("/api/reports/add", uploadData, {
+          headers: {
+              "Content-Type": "multipart/form-data",
+          },
+      });
+      console.log("Report added successfully");
+      handleClose(); // Close the form after submission
+  } catch (error) {
+      console.error("Error submitting form: ", error);
+  }
+};
   return (
     <div>  <Dialog
     open={open}
@@ -100,7 +110,7 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
       },
     }}
   >
-    <DialogTitle>Create New Request</DialogTitle>
+    <DialogTitle>upload New Report</DialogTitle>
     <form onSubmit={handleSubmit}>
       <DialogContent sx={{ overflowX: "hidden" }}>
         {/* //floor */}

@@ -127,7 +127,7 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
                   label="Room"
                   onChange={handleChange}
                 >
-                  <MenuItem wvalue={10}>r1</MenuItem>
+                  <MenuItem value={10}>r1</MenuItem>
                   <MenuItem value={20}>r2</MenuItem>
                   <MenuItem value={30}>r3</MenuItem>
                   <MenuItem value={30}>r4</MenuItem>
