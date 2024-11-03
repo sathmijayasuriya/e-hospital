@@ -20,6 +20,8 @@ import java.time.LocalDate;
 public class ReportController {
     @Autowired
     private ReportService reportService;
+
+    //   upload file on /uploads directory
     @PostMapping(RestURI.addReportData)
     public String addReport(
             @RequestParam("reportType") String reportType,
@@ -53,6 +55,8 @@ public class ReportController {
             return "Error uploading file";
         }
     }
+
+    //upload file on
 
 
 }
