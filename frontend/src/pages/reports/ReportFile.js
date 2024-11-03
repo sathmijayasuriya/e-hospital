@@ -17,8 +17,7 @@ import { Typography } from '@mui/material'
 import { addRequestData } from "../../service/EhospitalAPI";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
-import axios from "axios";
-
+import { addReportData } from "../../service/EhospitalAPI";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -76,27 +75,27 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
 
 const handleSubmit = async (e) => {
   e.preventDefault();
+  console.log("Submit button clicked"); // Add this line
 
   const uploadData = new FormData();
+  console.log(uploadData)
   uploadData.append("reportType", formData.reportType);
   uploadData.append("reportDateStart", formData.reportDateStart);
   uploadData.append("reportDateEnd", formData.reportDateEnd);
   uploadData.append("file", pdfFile);
 
   try {
-      await axios.post("/api/reports/add", uploadData, {
-          headers: {
-              "Content-Type": "multipart/form-data",
-          },
-      });
-      console.log("Report added successfully");
-      handleClose(); // Close the form after submission
+    await addReportData(uploadData); // Use the addReportData function
+    console.log("Report added successfully");
+    setPdfFile(null); // Clear the file after submission
+    setFormData({ reportType: "", reportDateStart: "", reportDateEnd: "" }); // Clear form
+    handleClose(); // Close the form after submission
   } catch (error) {
-      console.error("Error submitting form: ", error);
+    console.error("Error submitting form: ", error);
   }
 };
   return (
-    <div>  <Dialog
+  <Dialog
     open={open}
     onClose={handleClose}
     fullWidth
@@ -124,6 +123,7 @@ const handleSubmit = async (e) => {
               value={formData.reportType}
               label="Report Type"
               onChange={handleChange}
+              required
             >
                <MenuItem value="Patient">Patient</MenuItem>
                 <MenuItem value="Appointment">Appointment</MenuItem>
@@ -146,6 +146,7 @@ const handleSubmit = async (e) => {
               sx={{fontFamily:"Inter, sans-serif", fontWeight: 600}}
               accept="application/pdf"
               onChange={handleFileChange}
+              required
             />
           </Button>
             {pdfFile && (
@@ -164,6 +165,7 @@ const handleSubmit = async (e) => {
               fullWidth
               value={formData.reportDateStart}
               onChange={handleChange}
+              required
             />
             <TextField
             sx={{ m: 1, width: "100%" }}
@@ -175,13 +177,14 @@ const handleSubmit = async (e) => {
               size="small"
               value={formData.reportDateEnd}
               onChange={handleChange}
+              required
             />
       </DialogContent>
-    </form>
     <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
       <Button  onClick={handleClose} sx={{color:"black"}}>Cancel</Button>
       <Button  type="submit" sx={{color:"black",borderColor:"black"}}>Submit</Button>
     </DialogActions>
-  </Dialog></div>
+    </form>
+  </Dialog>
   )
 }

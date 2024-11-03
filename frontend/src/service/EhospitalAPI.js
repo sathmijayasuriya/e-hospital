@@ -41,7 +41,7 @@ export const addRequestData = async (formData) => {
   //add report data
   export const addReportData = async (formData) => {
     try {
-      const response = await axios.post(`${Configuration.BASE_URL}/api/ehospital/addReportData`, formData, {
+      const response = await axios.post(`${Configuration.BASE_URL}/addReportData`, formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
