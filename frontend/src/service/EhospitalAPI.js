@@ -37,4 +37,18 @@ export const addRequestData = async (formData) => {
     });
     return await response.json();
   };
-  
+
+  //add report data
+  export const addReportData = async (formData) => {
+    try {
+      const response = await axios.post(`${Configuration.BASE_URL}/addReportData`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return response.data; // Adjust based on your backend response
+    } catch (error) {
+      console.error("Error adding report data:", error);
+      throw error; // Rethrow the error for handling in the component
+    }
+  };

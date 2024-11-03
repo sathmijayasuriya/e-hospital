@@ -17,6 +17,7 @@ import { Typography } from '@mui/material'
 import { addRequestData } from "../../service/EhospitalAPI";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled } from "@mui/material/styles";
+import { addReportData } from "../../service/EhospitalAPI";
 
 const VisuallyHiddenInput = styled("input")({
     clip: "rect(0 0 0 0)",
@@ -32,13 +33,12 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function ReportFile({open,handleClose,requestData = {},}) {
 
-    const [pdfFile, setPdfFile] = useState(null);
-    const [formData, setFormData] = useState({
-        reportID : "",
-        reportType: "",
-        reportDateStart: "",
-        reportDateEnd: "",
-      });
+  const [pdfFile, setPdfFile] = useState(null);
+  const [formData, setFormData] = useState({
+      reportType: "",
+      reportDateStart: "",
+      reportDateEnd: "",
+  });
     // useEffect(() => {
     //     if (isEditing && requestData) {
     //       setFormData({
@@ -56,37 +56,46 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
     //   }, []);
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file && file.type === "application/pdf") {
+      const file = e.target.files[0];
+      if (file && file.type === "application/pdf") {
           setPdfFile(file);
-        } else {
+      } else {
           alert("Please upload a PDF file.");
-        }
-      };
+      }
+  };
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-        }));
-      };
 
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-    
-        try { 
-            // Add new request
-            await addRequestData(formData);  // Add API call
-            console.log("Report added: ", formData);
-          
-          handleClose(); // Close the form after submission
-        } catch (error) {
-          console.error("Error submitting form: ", error);
-        }
-      };
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+        ...prevData,
+        [name]: value,
+    }));
+};
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  console.log("Submit button clicked"); // Add this line
+
+  const uploadData = new FormData();
+  console.log(uploadData)
+  uploadData.append("reportType", formData.reportType);
+  uploadData.append("reportDateStart", formData.reportDateStart);
+  uploadData.append("reportDateEnd", formData.reportDateEnd);
+  uploadData.append("file", pdfFile);
+
+  try {
+    await addReportData(uploadData); // Use the addReportData function
+    console.log("Report added successfully");
+    setPdfFile(null); // Clear the file after submission
+    setFormData({ reportType: "", reportDateStart: "", reportDateEnd: "" }); // Clear form
+    handleClose(); // Close the form after submission
+  } catch (error) {
+    console.error("Error submitting form: ", error);
+  }
+};
   return (
-    <div>  <Dialog
+  <Dialog
     open={open}
     onClose={handleClose}
     fullWidth
@@ -100,7 +109,7 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
       },
     }}
   >
-    <DialogTitle>Create New Request</DialogTitle>
+    <DialogTitle>upload New Report</DialogTitle>
     <form onSubmit={handleSubmit}>
       <DialogContent sx={{ overflowX: "hidden" }}>
         {/* //floor */}
@@ -114,6 +123,7 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
               value={formData.reportType}
               label="Report Type"
               onChange={handleChange}
+              required
             >
                <MenuItem value="Patient">Patient</MenuItem>
                 <MenuItem value="Appointment">Appointment</MenuItem>
@@ -136,6 +146,7 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
               sx={{fontFamily:"Inter, sans-serif", fontWeight: 600}}
               accept="application/pdf"
               onChange={handleFileChange}
+              required
             />
           </Button>
             {pdfFile && (
@@ -154,6 +165,7 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
               fullWidth
               value={formData.reportDateStart}
               onChange={handleChange}
+              required
             />
             <TextField
             sx={{ m: 1, width: "100%" }}
@@ -165,13 +177,14 @@ export default function ReportFile({open,handleClose,requestData = {},}) {
               size="small"
               value={formData.reportDateEnd}
               onChange={handleChange}
+              required
             />
       </DialogContent>
-    </form>
     <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
       <Button  onClick={handleClose} sx={{color:"black"}}>Cancel</Button>
       <Button  type="submit" sx={{color:"black",borderColor:"black"}}>Submit</Button>
     </DialogActions>
-  </Dialog></div>
+    </form>
+  </Dialog>
   )
 }
