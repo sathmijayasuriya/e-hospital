@@ -1,4 +1,4 @@
-import React, { useState ,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -29,7 +29,6 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
     assignedTo: "",
   });
 
-
   // Populate form with existing data when editing
   useEffect(() => {
     if (isEditing && requestData) {
@@ -46,7 +45,6 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
       });
     }
   }, [isEditing, requestData]);
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -74,99 +72,98 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
       console.error("Error submitting form: ", error);
     }
   };
+
   return (
     <div>
       <Dialog
         open={open}
         onClose={handleClose}
         fullWidth
-        // maxWidth = "md"
-        // sx={{
-        //   backdropFilter: "blur(5px) sepia(3%)",
-        // }}
         PaperProps={{
           sx: {
             borderRadius: "10px 10px",
           },
         }}
       >
-        <DialogTitle>Create New Request</DialogTitle>
-        <form onSubmit={handleSubmit}>
+        <DialogTitle>{isEditing ? "Edit Request" : "Create New Request"}</DialogTitle>
+        <form onSubmit={handleSubmit}> {/* Move the form tag here */}
           <DialogContent sx={{ overflowX: "hidden" }}>
             {/* //floor */}
             <Box sx={{ display: "flex", width: "100%", m: 1, gap: 1 }}>
               <FormControl sx={{ flex: 2 }} size="small">
-                <InputLabel id="demo-select-small-label">Floor</InputLabel>
+                <InputLabel id="floor-select-label">Floor</InputLabel>
                 <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
+                  labelId="floor-select-label"
+                  id="floor-select"
                   name="floor"
                   value={formData.floor}
                   label="Floor"
                   onChange={handleChange}
+                  required
                 >
-                  <MenuItem value={10}>f103</MenuItem>
-                  <MenuItem value={20}>f104</MenuItem>
-                  <MenuItem value={30}>f105</MenuItem>
-                  <MenuItem value={30}>f106</MenuItem>
-                  <MenuItem value={30}>f107</MenuItem>
-                  <MenuItem value={30}>f108</MenuItem>
-                  <MenuItem value={30}>f109</MenuItem>
-                  <MenuItem value={30}>f110</MenuItem>
-                  <MenuItem value={30}>f111</MenuItem>
+                  <MenuItem value="f103">f103</MenuItem>
+                  <MenuItem value="f104">f104</MenuItem>
+                  <MenuItem value="f105">f105</MenuItem>
+                  <MenuItem value="f106">f106</MenuItem>
+                  <MenuItem value="f107">f107</MenuItem>
+                  <MenuItem value="f108">f108</MenuItem>
+                  <MenuItem value="f109">f109</MenuItem>
+                  <MenuItem value="f110">f110</MenuItem>
+                  <MenuItem value="f111">f111</MenuItem>
                 </Select>
               </FormControl>
               {/* //room */}
               <FormControl sx={{ flex: 2 }} size="small">
-                <InputLabel id="demo-select-small-label">Room</InputLabel>
+                <InputLabel id="room-select-label">Room</InputLabel>
                 <Select
-                  labelId="demo-select-small-label"
-                  id="demo-select-small"
+                  labelId="room-select-label"
+                  id="room-select"
                   name="room"
                   value={formData.room}
                   label="Room"
                   onChange={handleChange}
+                  required
                 >
-                  <MenuItem value={10}>r1</MenuItem>
-                  <MenuItem value={20}>r2</MenuItem>
-                  <MenuItem value={30}>r3</MenuItem>
-                  <MenuItem value={30}>r4</MenuItem>
-                  <MenuItem value={30}>r5</MenuItem>
-                  <MenuItem value={30}>r6</MenuItem>
-                  <MenuItem value={30}>r7</MenuItem>
-                  <MenuItem value={30}>r8</MenuItem>
-                  <MenuItem value={30}>r9</MenuItem>
-                  <MenuItem value={30}>r10</MenuItem>
+                  <MenuItem value="r1">r1</MenuItem>
+                  <MenuItem value="r2">r2</MenuItem>
+                  <MenuItem value="r3">r3</MenuItem>
+                  <MenuItem value="r4">r4</MenuItem>
+                  <MenuItem value="r5">r5</MenuItem>
+                  <MenuItem value="r6">r6</MenuItem>
+                  <MenuItem value="r7">r7</MenuItem>
+                  <MenuItem value="r8">r8</MenuItem>
+                  <MenuItem value="r9">r9</MenuItem>
+                  <MenuItem value="r10">r10</MenuItem>
                 </Select>
               </FormControl>
             </Box>
-            {/* //serivce */}
+            {/* //service */}
             <FormControl sx={{ m: 1, width: "100%" }} size="small">
               <InputLabel>Service</InputLabel>
               <Select
                 name="service"
                 value={formData.service}
                 onChange={handleChange}
-                label="service"
+                label="Service"
+                required
               >
-                <MenuItem value="service1">
-                  Permission to access a service
-                </MenuItem>
-                <MenuItem value="service2">Ordering a service </MenuItem>
+                <MenuItem value="service1">Permission to access a service</MenuItem>
+                <MenuItem value="service2">Ordering a service</MenuItem>
                 <MenuItem value="service3">Service delivery action</MenuItem>
-                <MenuItem value="service4">feedback</MenuItem>
+                <MenuItem value="service4">Feedback</MenuItem>
                 <MenuItem value="service5">Information request</MenuItem>
-                <MenuItem value="service6">complaints</MenuItem>
+                <MenuItem value="service6">Complaints</MenuItem>
               </Select>
             </FormControl>
             {/* //department */}
             <FormControl sx={{ m: 1, width: "100%" }} size="small">
-              <InputLabel id="demo-simple-select-label">Department</InputLabel>
+              <InputLabel id="department-select-label">Department</InputLabel>
               <Select
                 name="department"
                 value={formData.department}
                 onChange={handleChange}
                 label="Department"
+                required
               >
                 <MenuItem value="IT">IT</MenuItem>
                 <MenuItem value="FINANCE">Finance</MenuItem>
@@ -184,6 +181,7 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
               type="text"
               value={formData.requestedBy}
               onChange={handleChange}
+              required
             />
             <TextField
               sx={{ m: 1, width: "100%" }}
@@ -194,6 +192,7 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
               type="text"
               value={formData.assignedTo}
               onChange={handleChange}
+              required
             />
             {/* //status */}
             <Box sx={{ display: "flex", width: "100%", m: 1, gap: 1 }}>
@@ -204,6 +203,7 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
                   value={formData.status}
                   onChange={handleChange}
                   label="Status"
+                  required
                 >
                   <MenuItem value="NEW">NEW</MenuItem>
                   <MenuItem value="IN_PROGRESS">IN_PROGRESS</MenuItem>
@@ -220,6 +220,7 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
                   value={formData.priority}
                   onChange={handleChange}
                   label="Priority"
+                  required
                 >
                   <MenuItem value="HIGH">HIGH</MenuItem>
                   <MenuItem value="MEDIUM">MEDIUM</MenuItem>
@@ -228,20 +229,22 @@ export default function RequestForm({ open, handleClose, requestData = {}, isEdi
               </FormControl>
             </Box>
           </DialogContent>
-        </form>
-        <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
-          <Button 
-          variant="contained" 
-          
-          sx={{ backgroundColor:"black",color: "white", "&:hover": { backgroundColor: "#830823" } }} 
-          onClick={handleClose}>
-            Cancel
+          <DialogActions sx={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              variant="contained"
+              sx={{ backgroundColor: "black", color: "white", "&:hover": { backgroundColor: "#830823" } }}
+              type="submit" // Add this type to submit the form
+            >
+              {isEditing ? "Update" : "Create"}
             </Button>
-          <Button variant="contained" 
-          sx={{backgroundColor:"black",color: "white", "&:hover": { backgroundColor: "#830823" } }} 
-          type="submit">{isEditing ? "Update" : "Submit"}
-          </Button>
-        </DialogActions>
+            <Button
+              onClick={handleClose}
+              sx={{ backgroundColor: "black", color: "white", "&:hover": { backgroundColor: "#830823" } }}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
     </div>
   );

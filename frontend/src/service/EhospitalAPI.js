@@ -16,15 +16,27 @@ export const FetchRequests = async() =>{
 }
 // For adding a request
 export const addRequestData = async (formData) => {
-    const response = await fetch("/api/ehospital/addRequestData", {
-      method: "POST",
+  try {
+    const response = await axios.post(`${Configuration.BASE_URL}/addRequestData`, formData, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(formData),
     });
-    return await response.json();
-  };
+    return response.data; // Axios automatically parses the JSON response
+  } catch (error) {
+    if (error.response) {
+      console.error("Error response: ", error.response.data);
+      console.error("Error status: ", error.response.status);
+      console.error("Error headers: ", error.response.headers);
+    } else if (error.request) {
+      console.error("Error request: ", error.request);
+    } else {
+      console.error("Error message: ", error.message);
+    }
+    throw error;
+  }
+};
+
   
   // For editing a request
   export const editRequestData = async (formData) => {
