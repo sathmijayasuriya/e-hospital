@@ -2,9 +2,9 @@ package com.test.test.Service;
 
 import com.test.test.constants.ResponseCode;
 import com.test.test.constants.ResponseMessage;
-import com.test.test.controller.RequestController;
 import com.test.test.dto.RequestDataDTO;
 import com.test.test.dto.ResponseHeaderDTO;
+import com.test.test.dto.ResponseReqdataDTO;
 import com.test.test.model.ReqData;
 import com.test.test.model.ResponseHeader;
 import com.test.test.repository.RequestRepo;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -29,21 +30,22 @@ public class RequestServiceImpl implements RequestService{
     @Autowired
     private ModelMapper modelMapper;
     @Override
-    public List<RequestDataDTO> getRequestDataList(){
+    public List<ResponseReqdataDTO> getRequestDataList(){
 
         ResponseHeader responseHeader = new ResponseHeader();
         responseHeader.setResponseDescription(ResponseMessage.SUCCESS);
         responseHeader.setResponseCode(ResponseCode.SUCCESS);
+        responseHeader.setResponseTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
 
         ModelMapper modelMapper = new ModelMapper();
 
             // Fetch data from repository
             List<ReqData> reqDataList = requestRepo.getRequestData();
 
-            List<RequestDataDTO> dataDTOList = reqDataList.stream().toList()
+            List<ResponseReqdataDTO> dataDTOList = reqDataList.stream().toList()
                     .stream().map(
                             reqData -> {
-                                RequestDataDTO dto = modelMapper.map(reqData, RequestDataDTO.class);
+                                ResponseReqdataDTO dto = modelMapper.map(reqData, ResponseReqdataDTO.class);
                                 ResponseHeaderDTO responseHeaderDTO = modelMapper.map(responseHeader,ResponseHeaderDTO.class);
                                 dto.setResponseHeaderDTO(responseHeaderDTO);
                                 return dto;
@@ -70,7 +72,7 @@ public class RequestServiceImpl implements RequestService{
 
     @Override
     public boolean editRequestData(RequestDataDTO requestDataDTO){
-        ReqData existingRequest = requestRepo.findByRequestID(requestDataDTO.getRequestID());  //get request id to check existing
+        ReqData existingRequest = requestRepo.findByRequestID(requestDataDTO.getRequestId());  //get request id to check existing
         if (existingRequest != null) {
             updateRequestDataFromDTO(existingRequest, requestDataDTO);
             requestRepo.updateRequestData(existingRequest);
@@ -91,23 +93,57 @@ public class RequestServiceImpl implements RequestService{
     }
 
     @Override
-    public List<RequestDataDTO> searchDataByDate(Date dateFrom,Date dateTo){
+    public List<ResponseReqdataDTO> searchDataByDate(Date dateFrom,Date dateTo){
         List<ReqData> reqDataList = requestRepo.searchDataByDate(dateFrom, dateTo);
 
+        if(reqDataList.isEmpty()){
+            ResponseHeader responseHeader = new ResponseHeader();
+            responseHeader.setResponseCode(ResponseCode.NO_CONTENT);
+            responseHeader.setResponseDescription(ResponseMessage.REQUEST_NOTFOUND);
+            responseHeader.setResponseTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+        }
         // Convert list of ReqData to list of RequestDataDTO
-        return reqDataList.stream()
-                .map(reqData -> modelMapper.map(reqData, RequestDataDTO.class))
-                .collect(Collectors.toList());
+        return reqDataList.stream().map(reqData -> {
+            ResponseReqdataDTO responseReqdataDTO = modelMapper.map(reqData, ResponseReqdataDTO.class);
 
+            // Success Response Header
+            ResponseHeaderDTO responseHeaderDTO = new ResponseHeaderDTO();
+            responseHeaderDTO.setResponseCode(ResponseCode.SUCCESS);
+            responseHeaderDTO.setResponseDescription(ResponseMessage.SUCCESS);
+            responseHeaderDTO.setResponseTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+            responseReqdataDTO.setResponseHeaderDTO(responseHeaderDTO);
+            return responseReqdataDTO;
+        }).collect(Collectors.toList());
     }
 
     @Override
-    public List<RequestDataDTO> SearchDataByStatus(String status){
+    public List<ResponseReqdataDTO> SearchDataByStatus(String status){
         List<ReqData> reqDataList = requestRepo.SearchDataByStatus(status);
 
         return reqDataList.stream()
-                .map(reqData -> modelMapper.map(reqData, RequestDataDTO.class))
+                .map(reqData -> modelMapper.map(reqData, ResponseReqdataDTO.class))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ResponseReqdataDTO> SearchDataByDep(String department){
+        List<ReqData> reqDataList = requestRepo.SearchDataByDep(department);
+
+        return reqDataList.stream()
+                .map(reqData -> modelMapper.map(reqData, ResponseReqdataDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public boolean deleteRequestData(String requestId) {
+        ReqData existingRequest = requestRepo.findByRequestID(requestId);
+        if (existingRequest != null) {
+            requestRepo.deleteRequestData(requestId);
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

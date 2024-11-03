@@ -15,9 +15,8 @@ import java.util.Date;
 public class RequestDataDTO {
 
     private ResponseHeaderDTO responseHeaderDTO;
-    private String requestID;
+    private String requestId;
     private Date createdOn;
-
     private String floor;
     private String room;
     private String service;

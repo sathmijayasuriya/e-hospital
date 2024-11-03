@@ -63,7 +63,7 @@ public class RequestRepoImpl implements RequestRepo{
         String q1 = "SELECT * FROM RequestTable";
         return jdbcTemplate.query(q1, (rs, rowNum) -> {
             ReqData reqData = new ReqData();
-            reqData.setRequestID(rs.getString("requestId"));
+            reqData.setRequestId(rs.getString("requestId"));
             reqData.setCreatedOn(rs.getDate("createdOn"));
             reqData.setFloor(rs.getString("floor"));
             reqData.setRoom(rs.getString("room"));
@@ -82,7 +82,7 @@ public class RequestRepoImpl implements RequestRepo{
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         jdbcTemplate.update(q1,
-                reqData.getRequestID(),
+                reqData.getRequestId(),
                 new Timestamp(reqData.getCreatedOn().getTime()),
                 reqData.getFloor(),
                 reqData.getRoom(),
@@ -100,7 +100,7 @@ public class RequestRepoImpl implements RequestRepo{
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{requestID}, (rs, rowNum) -> {
                 ReqData reqData = new ReqData();
-                reqData.setRequestID(rs.getString("requestId"));
+                reqData.setRequestId(rs.getString("requestId"));
                 reqData.setCreatedOn(rs.getDate("createdOn"));
                 reqData.setFloor(rs.getString("floor"));
                 reqData.setRoom(rs.getString("room"));
@@ -124,7 +124,7 @@ public class RequestRepoImpl implements RequestRepo{
 
         jdbcTemplate.update(sql, reqData.getCreatedOn(), reqData.getFloor(), reqData.getRoom(), reqData.getService(),
                 reqData.getStatus(), reqData.getPriority(), reqData.getDepartment(), reqData.getRequestedBy(),
-                reqData.getAssignedTo(), reqData.getRequestID());
+                reqData.getAssignedTo(), reqData.getRequestId());
     }
 
     @Override
@@ -134,7 +134,7 @@ public class RequestRepoImpl implements RequestRepo{
         return jdbcTemplate.query(query, new Object[]{new java.sql.Date(dateFrom.getTime()), new java.sql.Date(dateTo.getTime())},
                 (rs, rowNum) -> {
                     ReqData reqData = new ReqData();
-                    reqData.setRequestID(rs.getString("requestId"));
+                    reqData.setRequestId(rs.getString("requestId"));
                     reqData.setCreatedOn(rs.getDate("createdOn"));
                     reqData.setFloor(rs.getString("floor"));
                     reqData.setRoom(rs.getString("room"));
@@ -155,7 +155,7 @@ public class RequestRepoImpl implements RequestRepo{
         return jdbcTemplate.query(query, new Object[]{status },
                 (rs, rowNum) -> {
                     ReqData reqData = new ReqData();
-                    reqData.setRequestID(rs.getString("requestId"));
+                    reqData.setRequestId(rs.getString("requestId"));
                     reqData.setCreatedOn(rs.getDate("createdOn"));
                     reqData.setFloor(rs.getString("floor"));
                     reqData.setRoom(rs.getString("room"));
@@ -169,6 +169,35 @@ public class RequestRepoImpl implements RequestRepo{
                 }
         );
     }
+
+    @Override
+    public List<ReqData> SearchDataByDep(String department){
+
+        String query = "SELECT * FROM RequestTable WHERE department = ?";
+        return jdbcTemplate.query(query, new Object[]{department },
+                (rs, rowNum) -> {
+                    ReqData reqData = new ReqData();
+                    reqData.setRequestId(rs.getString("requestId"));
+                    reqData.setCreatedOn(rs.getDate("createdOn"));
+                    reqData.setFloor(rs.getString("floor"));
+                    reqData.setRoom(rs.getString("room"));
+                    reqData.setService(rs.getString("service"));
+                    reqData.setStatus(rs.getString("status"));
+                    reqData.setPriority(rs.getString("priority"));
+                    reqData.setDepartment(rs.getString("department"));
+                    reqData.setRequestedBy(rs.getString("requestedBy"));
+                    reqData.setAssignedTo(rs.getString("assignedTo"));
+                    return reqData;
+                }
+        );
+    }
+
+    @Override
+    public void deleteRequestData(String requestId) {
+        String sql = "DELETE FROM RequestTable WHERE requestId = ?";
+        jdbcTemplate.update(sql, requestId);
+    }
+
 
 
 }

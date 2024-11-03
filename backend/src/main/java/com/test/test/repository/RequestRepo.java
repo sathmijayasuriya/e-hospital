@@ -14,6 +14,7 @@ public interface RequestRepo {
     void updateRequestData(ReqData reqData);
     List<ReqData> searchDataByDate(Date dateFrom,Date dateTo);
     List<ReqData> SearchDataByStatus(String status);
-
+    List<ReqData> SearchDataByDep(String department);
+    void deleteRequestData(String requestId);
 
 }

@@ -2,10 +2,13 @@ package com.test.test.model;
 
 
 import com.test.test.dto.ResponseHeaderDTO;
+import com.test.test.dto.ResponseHeaderDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Date;
 
 import java.util.Date;
 
@@ -15,7 +18,7 @@ import java.util.Date;
 @Getter
 public class ReqData {
     private ResponseHeader responseHeader;
-    private String requestID;
+    private String requestId;
     private Date createdOn;
     private String floor;
     private String room;
@@ -25,4 +28,5 @@ public class ReqData {
     private String department;
     private String requestedBy;
     private String assignedTo;
+
 }
