@@ -29,7 +29,7 @@ public class ReportController {
 
         try {
             // 1. Save the file on the server
-            String uploadDir = "uploads/";
+            String uploadDir = "backend/src/main/resources/uploads";
             Path uploadPath = Paths.get(uploadDir);
             if (!Files.exists(uploadPath)) {
                 Files.createDirectories(uploadPath);
